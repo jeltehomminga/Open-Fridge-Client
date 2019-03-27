@@ -4,28 +4,35 @@ import axios from "axios";
 
 class OfferFood extends Component {
   form = React.createRef(); //Creating a ref (new!)
-  state = { description: "", expiryDate: new Date().toLocaleDateString('fr-CA') , amount: "" };
+  state = {
+    description: "",
+    expiryDate: new Date().toLocaleDateString("fr-CA"),
+    amount: ""
+  };
   service = new AuthService();
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
   componentDidMount = () => {
-     this.service.groceryItems().then(responseData => {
-      this.setState({ groceryOptions: responseData });
+    this.service.groceryItems().then(responseData => {
+      this.setState({
+        groceryOptions: responseData,
+        groceryItem: responseData[0]._id
+      });
     });
   };
   handleSubmit = e => {
     e.preventDefault();
     let formData = new FormData(this.form.current);
-    console.log(formData);
     axios({
       method: "post",
-      url: `http://localhost:5000/api/foodoffer/${this.props.user._id}`,
+      url: `http://localhost:5000/api/foodoffer`,
       config: { headers: { "Content-Type": "multipart/form-data" } }, //New! This is a different encoding type, because we're uploading files
       data: formData,
       withCredentials: true
     })
       .then(response => {
+        debugger;
         this.setState({
           success: response.data.message,
           img: response.data.img,
@@ -52,6 +59,13 @@ class OfferFood extends Component {
           </option>
         );
       });
+
+    const groceryImg = {};
+    if (this.state.groceryOptions) {
+      for (let grocery of this.state.groceryOptions) {
+        groceryImg[grocery._id] = grocery.defaultImg;
+      }
+    }
     return (
       <form ref={this.form} onSubmit={this.handleSubmit}>
         <h2>What do you have to offer!?</h2>
@@ -60,7 +74,6 @@ class OfferFood extends Component {
           <input
             type="text"
             name="description"
-            id=""
             value={this.state.description}
             onChange={this.handleChange}
           />
@@ -90,8 +103,30 @@ class OfferFood extends Component {
             value={this.state.expiryDate}
           />
         </div>
-        <input className="file-input" type="file" name="groceryitem-picture" />
+        
+        <div className="file">
+          <label className="file-label" htmlFor="groceryitem-picture">
+            <input className="file-input" type="file" name="groceryitem-picture" />
+            <span className="file-cta">
+              <span className="file-icon">
+                <i className="fas fa-upload" />
+              </span>
+              <span className="file-label">Choose a file…</span>
+            </span>
+          </label>
+        </div>
+
         <button type="submit">Offer the food</button>
+        {this.state.groceryOptions && (
+          <img
+            src={`http://localhost:5000/images/${
+              this.state.img
+                ? this.state.img
+                : groceryImg[this.state.groceryItem]
+            }`}
+            alt="selectedgroceryitem"
+          />
+        )}
       </form>
     );
   }

@@ -1,95 +1,138 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import AuthService from "./auth/auth-service";
-// import { createBrowserHistory } from 'history';
-// const history = createBrowserHistory();
+
 
 const Navbar = props => {
-  const navStyle = {
-    width: "100%"
-  };
-  const navListStyle = {
-    listStyle: "none",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    color: "white"
-  };
-  const liStyle = {
-    color: "black"
-  };
   const service = new AuthService();
   const logout = () => {
     return service
       .logout()
 
       .then(responseData => {
-        // response.data
         props.logOut({ loggedIn: false, user: {} });
         //TODO: How to redirect to home after logout? history not working
         props.history.push("/");
       });
   };
   const NavAuthenticated = props => (
-  
-      <ul style={navListStyle}>
-        <li>
-          <NavLink style={liStyle} to="/" activeClassName="selected">
+    <nav className='navbar' role='navigation' aria-label='main navigation'>
+      <div className='navbar-brand'>
+        <a className='navbar-item' href='/about'>
+          <h1 style={{ fontFamily: "Orbitron, sans-serif" }}>Open Fridge</h1>
+        </a>
+        <div
+          role='button'
+          className='navbar-burger burger'
+          aria-label='menu'
+          aria-expanded='false'
+          data-target='navbarBasicExample'
+        >
+          <span aria-hidden='true'></span>
+          <span aria-hidden='true'></span>
+          <span aria-hidden='true'></span>
+        </div>
+      </div>
+      <div id='navbarBasicExample' className='navbar-menu'>
+        <div className='navbar-start'>
+          <NavLink className='navbar-item' to='/' activeClassName='selected'>
             Home
           </NavLink>
-        </li>
-        <li>
-          <Link style={liStyle} to="/about">
-            About
-          </Link>
-        </li>
-        <li>
-          <Link style={liStyle} to="/profile">
+          <Link className='navbar-item' to='/profile'>
             Profile
           </Link>
-        </li>
-        <li>
-          <Link style={liStyle} to="/offerfood">
+          <Link className='navbar-item' to='/offerfood'>
             Offer food
           </Link>
-        </li>
-        <li>
-          <button onClick={() => logout()}>Logout</button>
-        </li>
-      </ul>
+          <Link className='navbar-item' to='/foodoffers'>
+            Food offers
+          </Link>
+          <Link className='navbar-item' to='/requestfood'>
+            Request food
+          </Link>
+          <Link className='navbar-item' to='/foodrequests'>
+            Food requests
+          </Link>
+        </div>
 
+        <div className='navbar-end'>
+          <div className='navbar-item'>
+            <div className='buttons'>
+              <div onClick={() => logout()} className='button is-light'>
+                Log out
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
+
   const NavUnauthenticated = props => (
-       <ul style={navListStyle}>
-        <li>
-          <NavLink style={liStyle} to="/" activeClassName="selected">
+    <nav className='navbar' role='navigation' aria-label='main navigation'>
+      <div className='navbar-brand'>
+        <a className='navbar-item' href='/about'>
+          <h1 style={{ fontFamily: "Orbitron, sans-serif" }}>Open Fridge</h1>
+        </a>
+        <div
+          role='button'
+          className='navbar-burger burger'
+          aria-label='menu'
+          aria-expanded='false'
+          data-target='navbarBasicExample'
+        >
+          <span aria-hidden='true'>wat</span>
+          <span aria-hidden='true'>is</span>
+          <span aria-hidden='true'>dit?</span>
+        </div>
+      </div>
+      <div id='navbarBasicExample' className='navbar-menu'>
+        <div className='navbar-start'>
+          <NavLink className='navbar-item' to='/' activeClassName='selected'>
             Home
           </NavLink>
-        </li>
-        <li>
-          <Link style={liStyle} to="/about">
-            About
-          </Link>
-        </li>
-        <li>
-          <Link style={liStyle} to="/signup">
-            SignUp
-          </Link>
-        </li>
-        <li>
-          <Link style={liStyle} to="/login">
-            SignIn
-          </Link>
-        </li>
-      </ul>
-  );
-  return (    <nav style={navStyle}>
-  {props.loggedIn?
-    <NavAuthenticated {...props} />:
-    <NavUnauthenticated {...props} />
-  }
-  </nav>
+        </div>
 
+        <div className='navbar-end'>
+          <div className='navbar-item'>
+            <div className='buttons'>
+              <Link className='button is-primary' to='/signup'>
+                SignUp
+              </Link>
+              <Link className='button is-light' to='/login'>
+                SignIn
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+  document.addEventListener("DOMContentLoaded", () => {
+    const $navbarBurgers = Array.prototype.slice.call(
+      document.querySelectorAll(".navbar-burger"),
+      0
+    );
+    if ($navbarBurgers.length > 0) {
+      $navbarBurgers.forEach(el => {
+        el.addEventListener("click", () => {
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+          el.classList.toggle("is-active");
+          $target.classList.toggle("is-active");
+        });
+      });
+    }
+  });
+
+  return (
+    <div>
+      {props.loggedIn ? (
+        <NavAuthenticated {...props} />
+      ) : (
+        <NavUnauthenticated {...props} />
+      )}
+    </div>
   );
 };
 

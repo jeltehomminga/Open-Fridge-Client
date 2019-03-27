@@ -24,9 +24,9 @@ class AuthService {
   groceryItems = () => {
     return this.service.get('/groceryitems').then(response => response.data)
   }
-  // foodOffer = user => {
-  //     return this.service.post(`/foodoffer/${user}`).then(response => response.data)
-  // }
+  foodRequest = (data) => {
+      return this.service.post(`/foodrequest`, data).then(response => response.data)
+  }
 }
 
 export default AuthService;

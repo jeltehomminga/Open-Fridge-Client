@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AuthService from "./auth-service";
 import axios from "axios";
+import "bulma/css/bulma.css";
 
 class Profile extends Component {
   form = React.createRef(); //Creating a ref (new!)
@@ -20,16 +21,13 @@ class Profile extends Component {
       withCredentials: true
     })
       .then(response => {
-        this.setState(
-          { success: response.data.message, err: "", ...response.data.response } ,  
-                  () => this.props.logIn({ loggedIn: true, user: response.data.response  })
-        );
+        this.props.logIn({ loggedIn: true, user: response.data.response });
         this.state.foodSupplier
           ? this.props.history.push(`/offerfood/${this.props.user._id}`)
-          : this.props.history.push("/about");
+          : this.props.history.push(`/requestfood/${this.props.user._id}`);
       })
       .catch(err => {
-        this.setState({ err: err.message });
+        this.setState({ err: err.message, success: "" });
       });
   };
   render() {
@@ -50,68 +48,88 @@ class Profile extends Component {
       <form ref={this.form} style={formStyle} onSubmit={this.handleSubmit}>
         <h2>{this.state.error}</h2>
         <h3>Profile</h3>
-        {this.state.img &&
-                <div style={profileImageDiv}>
-                <img
-                  style={profileImage}
-                  src={`http://localhost:5000/images/${this.state.img}`}
-                  alt="profile pic"
-                />
-              </div>        
-        }
-
+        {this.state.img && (
+          <div style={profileImageDiv}>
+            <img
+              style={profileImage}
+              src={`http://localhost:5000/images/${this.state.img}`}
+              alt='profile pic'
+            />
+          </div>
+        )}
         <input
-          type="email"
-          name="username"
+          type='email'
+          name='username'
           value={this.state.username}
           onChange={this.handleChange}
         />
         <input
-          type="text"
-          name="firstName"
+          type='text'
+          name='firstName'
           value={this.state.firstName}
           onChange={this.handleChange}
-          placeholder="first name"
+          placeholder='first name'
         />
         <input
-          type="text"
-          name="lastName"
+          type='text'
+          name='lastName'
           value={this.state.lastName}
           onChange={this.handleChange}
-          placeholder="last name"
+          placeholder='last name'
         />{" "}
         <input
-          type="text"
-          name="address"
+          type='text'
+          name='address'
           value={this.state.address}
           onChange={this.handleChange}
-          placeholder="address"
+          placeholder='address'
         />
-        <input className="file-input" type="file" name="profile-picture" />
-        <label htmlFor="foodsupplier">
+        <div className='file'>
+          <label className='file-label' htmlFor='profile-picture'>
+            <input
+              className='file-input'
+              type='file'
+              name='profile-picture'
+              id='profile-picture'
+            />
+            <span className='file-cta'>
+              <span className='file-icon'>
+                <i className='fas fa-upload' />
+              </span>
+              <span className='file-label'>Choose a file…</span>
+            </span>
+          </label>
+        </div>
+        <label htmlFor='foodsupplier'>
           <input
-            id="foodsupplier"
-            type="radio"
-            name="userType"
-            value="foodSupplier"
+            id='foodsupplier'
+            type='radio'
+            name='userType'
+            value='foodSupplier'
             required
-            checked={this.state.userType === "foodSupplier" || this.state.foodSupplier === true }
+            checked={
+              this.state.userType === "foodSupplier" ||
+              this.state.foodSupplier === true
+            }
             onChange={this.handleChange}
           />
           Foodsupplier
         </label>
-        <label htmlFor="foodconsumer">
+        <label htmlFor='foodconsumer'>
           <input
-            id="foodconsumer"
-            type="radio"
-            name="userType"
-            value="foodConsumer"
-            checked={this.state.userType === "foodConsumer" || this.state.foodConsumer === true}
+            id='foodconsumer'
+            type='radio'
+            name='userType'
+            value='foodConsumer'
+            checked={
+              this.state.userType === "foodConsumer" ||
+              this.state.foodConsumer === true
+            }
             onChange={this.handleChange}
           />
           Foodconsumer
         </label>
-        <input type="submit" value="Submit" />
+        <input type='submit' value='Submit' />
       </form>
     );
   }

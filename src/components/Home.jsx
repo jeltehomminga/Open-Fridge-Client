@@ -13,9 +13,7 @@ const Home = props => {
 
   return (
     <div style={homeStyle}>
-      <div>
-        <h1>Open Fridge</h1>
-      </div>
+
       <div>
         <img src="/fridgehome.png" alt="" />
       </div>

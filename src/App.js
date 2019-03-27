@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import 'bulma/css/bulma.css'
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import { Switch, Route } from "react-router-dom";
@@ -9,7 +10,11 @@ import Login from "./components/auth/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import AuthService from "./components/auth/auth-service";
 import { createBrowserHistory } from "history";
-import OfferFood from './components/auth/OfferFood';
+import OfferFood from "./components/auth/OfferFood";
+import RequestFood from './components/auth/RequestFood';
+import FoodOffers from './components/auth/FoodOffers';
+import FoodRequests from './components/auth/FoodRequests';
+
 const history = createBrowserHistory();
 
 class App extends Component {
@@ -48,10 +53,11 @@ class App extends Component {
         />
 
         <Switch>
-          <Route path="/signup" render={(props)=> <Signup {...props} loggedIn={this.loggedIn}/>} /> */}
-
-          <Route exact path="/" render={(props)=> <Home {...props} loggedIn={this.state.loggedIn}/>}  />
-          
+          <Route
+            exact
+            path="/"
+            render={props => <Home {...props} loggedIn={this.state.loggedIn} />}
+          />
           <Route
             path="/signup"
             render={props => <Signup {...props} logIn={this.logIn} />}
@@ -71,6 +77,27 @@ class App extends Component {
             path="/offerfood"
             user={this.state.user}
             component={OfferFood}
+            loggedIn={this.state.loggedIn}
+            logIn={this.logIn}
+          />
+          <PrivateRoute
+            path="/requestfood"
+            user={this.state.user}
+            component={RequestFood}
+            loggedIn={this.state.loggedIn}
+            logIn={this.logIn}
+          />
+                    <PrivateRoute
+            path="/foodoffers"
+            user={this.state.user}
+            component={FoodOffers}
+            loggedIn={this.state.loggedIn}
+            logIn={this.logIn}
+          />
+                              <PrivateRoute
+            path="/foodrequests"
+            user={this.state.user}
+            component={FoodRequests}
             loggedIn={this.state.loggedIn}
             logIn={this.logIn}
           />
