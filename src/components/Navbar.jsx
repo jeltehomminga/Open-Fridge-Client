@@ -2,7 +2,6 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import AuthService from "./auth/auth-service";
 
-
 const Navbar = props => {
   const service = new AuthService();
   const logout = () => {
@@ -15,58 +14,86 @@ const Navbar = props => {
         props.history.push("/");
       });
   };
-  const NavAuthenticated = props => (
-    <nav className='navbar' role='navigation' aria-label='main navigation'>
-      <div className='navbar-brand'>
-        <a className='navbar-item' href='/about'>
-          <h1 style={{ fontFamily: "Orbitron, sans-serif" }}>Open Fridge</h1>
-        </a>
-        <div
-          role='button'
-          className='navbar-burger burger'
-          aria-label='menu'
-          aria-expanded='false'
-          data-target='navbarBasicExample'
-        >
-          <span aria-hidden='true'></span>
-          <span aria-hidden='true'></span>
-          <span aria-hidden='true'></span>
-        </div>
-      </div>
-      <div id='navbarBasicExample' className='navbar-menu'>
-        <div className='navbar-start'>
-          <NavLink className='navbar-item' to='/' activeClassName='selected'>
-            Home
-          </NavLink>
-          <Link className='navbar-item' to='/profile'>
-            Profile
-          </Link>
-          <Link className='navbar-item' to='/offerfood'>
-            Offer food
-          </Link>
-          <Link className='navbar-item' to='/foodoffers'>
-            Food offers
-          </Link>
-          <Link className='navbar-item' to='/requestfood'>
-            Request food
-          </Link>
-          <Link className='navbar-item' to='/foodrequests'>
-            Food requests
-          </Link>
-        </div>
 
-        <div className='navbar-end'>
-          <div className='navbar-item'>
-            <div className='buttons'>
-              <div onClick={() => logout()} className='button is-light'>
-                Log out
+  // const userTypeNav = props => {
+  //   return (
+  //     <>
+  //     {props.user.foodConsumer ? (
+  //       <Link className='navbar-item' to='/foodoffers'>
+  //         Food offers
+  //       </Link>
+  //       <Link className='navbar-item' to='/requestfood'>
+  //         Request food
+  //       </Link>) : (
+  //                 <Link className='navbar-item' to='/foodrequests'>
+  //                 Food requests
+  //               </Link>
+  //                         <Link className='navbar-item' to='/offerfood'>
+  //                         Offer food
+  //                       </Link>)
+
+  //     }
+  //     </>
+  //   );
+  // };
+  const NavAuthenticated = props => {
+    return (
+      <nav className='navbar' role='navigation' aria-label='main navigation'>
+        <div className='navbar-brand'>
+          <a className='navbar-item' href='/about'>
+            <h1 style={{ fontFamily: "Orbitron, sans-serif" }}>Open Fridge</h1>
+          </a>
+          <div
+            role='button'
+            className='navbar-burger burger'
+            aria-label='menu'
+            aria-expanded='false'
+            data-target='navbarBasicExample'
+          >
+            <span aria-hidden='true' />
+            <span aria-hidden='true' />
+            <span aria-hidden='true' />
+          </div>
+        </div>
+        <div id='navbarBasicExample' className='navbar-menu'>
+          <div className='navbar-start'>
+            <NavLink className='navbar-item' to='/' activeClassName='selected'>
+              Home
+            </NavLink>
+            <Link className='navbar-item' to='/profile'>
+              Profile
+            </Link>       
+            {props.user.foodConsumer ? <>
+        <Link className='navbar-item' to='/foodoffers'>
+          Food offers
+        </Link>
+        <Link className='navbar-item' to='/requestfood'>
+          Request food
+        </Link></> : <>
+                  <Link className='navbar-item' to='/foodrequests'>
+                  Food requests
+                </Link>
+                          <Link className='navbar-item' to='/offerfood'>
+                          Offer food
+                        </Link></>
+
+      }
+
+          </div>
+
+          <div className='navbar-end'>
+            <div className='navbar-item'>
+              <div className='buttons'>
+                <div onClick={() => logout()} className='button is-light'>
+                  Log out
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
-  );
+      </nav>
+    );
+  };
 
   const NavUnauthenticated = props => (
     <nav className='navbar' role='navigation' aria-label='main navigation'>

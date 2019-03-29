@@ -15,23 +15,18 @@ class FoodOffers extends Component {
     });
   }
   openModal = (e, index) => {
-      debugger
-      let modal = document.getElementById(`modal-card-${index}`)
-      modal.classList.toggle('is-active')
-  }
+    let modal = document.getElementById(`modal-card-${index}`);
+    modal.classList.toggle("is-active");
+  };
   acceptOffer = (e, offerId) => {
-    debugger
     axios({
-        method: "post",
-        withCredentials: "true",
-        url: `http://localhost:5000/api/acceptoffer/${offerId}`
-      }).then(response => {
-        debugger
-
-        this.props.history.push('/profile');
-      })
-
-  }
+      method: "post",
+      withCredentials: "true",
+      url: `http://localhost:5000/api/acceptoffer/${offerId}`
+    }).then(response => {
+       this.props.history.push("/profile");
+    });
+  };
   render() {
     const equalHeight = {
       height: "100%"
@@ -42,12 +37,15 @@ class FoodOffers extends Component {
         <section className='section cards'>
           <div className='columns is-multiline'>
             {this.state.foodOffers &&
-              this.state.foodOffers.map( (foodOffer, index) => (
+              this.state.foodOffers.map((foodOffer, index) => (
                 <div className='column is-one-quarter' key={foodOffer._id}>
-                  <div className='card' style={equalHeight}>
-                    <div className='card-image'>
-                      <figure className='image is-4by3'>
-                        <img
+                  <div
+                    className='card has-background-light'
+                    style={equalHeight}
+                  >
+                    <div className='card-image' style={{width: '80%', margin: '25px', padding: '25px'}}>
+                      <figure className='image is-square' >
+                        <img 
                           src={`http://localhost:5000/images/${
                             foodOffer.img
                               ? foodOffer.img
@@ -57,7 +55,7 @@ class FoodOffers extends Component {
                         />
                       </figure>
                     </div>
-                    <div className='card-content'>
+                    <div className='card-content has-text-grey-dark'>
                       <div className='media'>
                         <div className='media-left'>
                           <figure className='image is-48x48'>
@@ -65,20 +63,20 @@ class FoodOffers extends Component {
                               src={`http://localhost:5000/images/${foodOffer
                                 .foodSupplier.img &&
                                 foodOffer.foodSupplier.img}`}
-                              alt='foodsupplier'
+                              alt='foodsupplier' 
                             />
                           </figure>
                         </div>
                         <div className='media-content'>
-                          <p className='title is-4'>
+                          <p className='title is-4 has-text-black-ter'>
                             {foodOffer.foodSupplier.firstName}
                           </p>
-                          <p className='subtitle is-6'>@johnsmith</p>
+                          <p className='subtitle is-6 has-text-black-ter'>{foodOffer.foodSupplier.lastName}</p>
                         </div>
                       </div>
 
                       <div className='content'>
-                        {foodOffer.description} 
+                        {foodOffer.description}
 
                         <br />
                         <time dateTime='2016-1-1'>11:09 PM - 1 Jan 2016</time>
@@ -87,78 +85,80 @@ class FoodOffers extends Component {
                     <footer className='card-footer'>
                       <p className='card-footer-item'>
                         <span>
-                           <span onClick={(e) => this.acceptOffer(e, foodOffer._id)}>
-                            Yes, I want it!
+                          <span
+                            id={`modal-button-${index}`}
+                            onClick={e => this.openModal(e, index)}
+                          >
+                            Yeah, gimme!
                           </span>
                         </span>
-                      </p>
-                      <p className='card-footer-item'>
-                        <span>
-                          Share on <span href='#'>Facebook</span>
-                        </span>
-                        <button id={`modal-button-${index}`} onClick={(e) => this.openModal(e, index)} >Modal</button>
                       </p>
                     </footer>
                   </div>
 
                   {/* now the modal card */}
-                  <div id={`modal-card-${index}`}className='card modal' style={equalHeight}>
-                    <div className='card-image'>
-                      <figure className='image is-4by3'>
-                        <img
-                          src={`http://localhost:5000/images/${
-                            foodOffer.img
-                              ? foodOffer.img
-                              : foodOffer.groceryItem.defaultImg
-                          }`}
-                          alt='foodoffer'
+
+                  <div className='modal' id={`modal-card-${index}`}>
+                    <div className='modal-background' />
+                    <div className='modal-card'>
+                      <header className='modal-card-head'>
+                        <p className='modal-card-title'>{`You will get ${
+                          foodOffer.groceryItem.name
+                        } from ${foodOffer.foodSupplier.firstName} `}</p>
+                        <button
+                          className='delete'
+                          aria-label='close'
+                          onClick={e => this.openModal(e, index)}
                         />
-                      </figure>
-                    </div>
-                    <div className='card-content'>
-                      <div className='media'>
-                        <div className='media-left'>
-                          <figure className='image is-48x48'>
-                            <img
-                              src={`http://localhost:5000/images/${foodOffer
-                                .foodSupplier.img &&
-                                foodOffer.foodSupplier.img}`}
-                              alt='foodsupplier'
-                            />
-                          </figure>
-                        </div>
-                        <div className='media-content'>
-                          <p className='title is-4'>
-                            {foodOffer.foodSupplier.firstName}
-                          </p>
-                          <p className='subtitle is-6'>@johnsmith</p>
-                        </div>
-                      </div>
+                      </header>
+                      <section className='modal-card-body'>
+                        <figure className='image is-4by3'>
+                          <img
+                            src={`http://localhost:5000/images/${
+                              foodOffer.img
+                                ? foodOffer.img
+                                : foodOffer.groceryItem.defaultImg
+                            }`}
+                            alt='foodoffer'
+                          />
+                        </figure>
 
-                      <div className='content'>
-                        {foodOffer.description} 
-                        <br />
-                        <time dateTime='2016-1-1'>11:09 PM - 1 Jan 2016</time>
-                      </div>
+                        <div className='media'>
+                          <div className='media-left'>
+                            <figure className='image is-48x48'>
+                              <img
+                                src={`http://localhost:5000/images/${foodOffer
+                                  .foodSupplier.img &&
+                                  foodOffer.foodSupplier.img}`}
+                                alt='foodsupplier'
+                              />
+                            </figure>
+                          </div>
+                          <div className='media-content has-text-black-ter'>
+                            <p className='title is-4 has-text-black-ter'>
+                              {foodOffer.foodSupplier.firstName}
+                            </p>
+                            <p className='subtitle is-6 has-text-black-ter'>{foodOffer.foodSupplier.lasttName}</p>
+                          </div>
+                        </div>
+                      </section>
+                      <footer className='modal-card-foot'>
+                        <button
+                          className='button is-success'
+                          onClick={e => this.acceptOffer(e, foodOffer._id)}
+                        >
+                          Cool!
+                        </button>
+                        <button
+                          className='button'
+                          id={`modal-close-${index}`}
+                          onClick={e => this.openModal(e, index)}
+                        >
+                          Naaaaaaaah...
+                        </button>
+                      </footer>
                     </div>
-                    <footer className='card-footer'>
-                      <p className='card-footer-item'>
-                        <span>
-                           <a href='https://twitter.com/codinghorror/status/506010907021828096'>
-                            Yes, I want it!
-                          </a>
-                        </span>
-                      </p>
-                      <p className='card-footer-item'>
-                        <span>
-                          Share on <span href='#'>Facebook</span>
-                        </span>
-                      </p>
-                    </footer>
                   </div>
-
-
-
                 </div>
               ))}
           </div>

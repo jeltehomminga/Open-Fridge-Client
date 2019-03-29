@@ -20,12 +20,10 @@ class RequestFood extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    debugger;
     this.service
       .foodRequest(this.state.form)
       .then(response => {
         this.setState({
-          success: response.data.message,
           err: ""
         });
         this.props.history.push(`/foodrequests/${this.props.user._id}`);
@@ -35,12 +33,12 @@ class RequestFood extends Component {
       });
   };
   imageDivStyle = {
-      width: '70%',
-      margin: '0 auto'
-  }
+    width: "70%",
+    margin: "auto auto"
+  };
   imageStyle = {
-      width: '30%'
-  }
+    width: "30%"
+  };
   render() {
     const groceryOptionsMap =
       this.state.groceryOptions &&
@@ -58,52 +56,77 @@ class RequestFood extends Component {
 
     const groceryImg = {};
     if (this.state.groceryOptions) {
-      debugger;
       for (let grocery of this.state.groceryOptions) {
         groceryImg[grocery._id] = grocery.defaultImg;
       }
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h2>{this.state.err}</h2>
-        <h2>Request Food you hungry human!</h2>
-        <div>
-          <label htmlFor="">Description:</label>
-          <input
-            type="text"
-            name="description"
-            value={this.state.description}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="groceryitem">Grocery item</label>
-          <select name="groceryItem" onChange={this.handleChange}>
-            {groceryOptionsMap}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="">Amount</label>
-          <input
-            type="number"
-            name="amount"
-            onChange={this.handleChange}
-            value={this.state.amount}
-          />
-        </div>
-        <div style={this.imageDivStyle}>
+      <div className='columns' style={{ margin: "0" }}>
+        <form
+          className='column is-one-third'
+          style={{ padding: "5%", textAlign: "left" }}
+          onSubmit={this.handleSubmit}
+        >
+          <h2>{this.state.err}</h2>
+          <h1 className='is-size-4' >Request Food you hungry human!</h1>
+          <br />
+
+          <div className='field'>
+            <label className='label'>Description:</label>
+            <input
+              className='input'
+              type='text'
+              name='description'
+              value={this.state.description}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <div className='field'>
+            <label className='label' htmlFor='groceryitem'>
+              Grocery item
+            </label>
+            <div className='select'>
+              <select name='groceryItem' onChange={this.handleChange}>
+                {groceryOptionsMap}
+              </select>
+            </div>
+          </div>
+          <div className='field'>
+            <label className='label'>Amount</label>
+            <input
+              className='input'
+              type='number'
+              name='amount'
+              onChange={this.handleChange}
+              value={this.state.amount}
+            />
+          </div>
+          <br/>
+          <div className='field'>
+            <div className='control'>
+              <input
+                className='button is-link'
+                type='submit'
+                value='Request the food'
+              />
+            </div>
+          </div>
+        </form>
+
+        <div style={this.imageDivStyle}  className='column is-one-third'>
           {this.state.groceryOptions && (
-            <img style={this.imageStyle}
+            <img
+              style={this.imageStyle}
               src={`http://localhost:5000/images/${
                 groceryImg[this.state.form.groceryItem]
               }`}
-              alt="selectedgroceryitem"
+              alt='selectedgroceryitem'
             />
           )}
         </div>
-        <button type="submit">Request the food</button>
-      </form>
+      </div>
     );
   }
 }

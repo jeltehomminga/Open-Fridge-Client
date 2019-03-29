@@ -2,13 +2,42 @@ import React, { Component } from "react";
 import AuthService from "./auth-service";
 import axios from "axios";
 import "bulma/css/bulma.css";
+import moment from 'moment';
 
 class Profile extends Component {
   form = React.createRef(); //Creating a ref (new!)
-  state = { userType: "", ...this.props.user };
+  state = {
+    userType: "",
+    ...this.props.user,
+    foodRequests: [],
+    foodOffers: []
+  };
   service = new AuthService();
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    axios({
+      method: "get",
+      withCredentials: "true",
+      url: `http://localhost:5000/api/foodrequests/`
+    }).then(response => {
 
+      const foodRequests = response.data.filter(
+        foodRequest => foodRequest.foodConsumer._id === this.props.user._id
+      );
+
+      this.setState({ foodRequests });
+    });
+    axios({
+      method: "get",
+      withCredentials: "true",
+      url: `http://localhost:5000/api/foodoffers/`
+    }).then(response => {
+
+      const foodOffers = response.data.filter(
+        foodOffer => foodOffer.foodSupplier._id === this.props.user._id
+      );
+      this.setState({ foodOffers });
+    });
+  };
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
   handleSubmit = e => {
     e.preventDefault();
@@ -21,116 +50,188 @@ class Profile extends Component {
       withCredentials: true
     })
       .then(response => {
-        this.props.logIn({ loggedIn: true, user: response.data.response });
-        this.state.foodSupplier
+        this.props.logIn({ loggedIn: true, user: response.data.response })
+          this.state.foodSupplier
           ? this.props.history.push(`/offerfood/${this.props.user._id}`)
-          : this.props.history.push(`/requestfood/${this.props.user._id}`);
+          : this.props.history.push(`/requestfood/${this.props.user._id}`)
+
       })
       .catch(err => {
         this.setState({ err: err.message, success: "" });
       });
   };
   render() {
-    const profileImageDiv = {
-      width: "300px",
-      height: "300px"
-    };
-    const profileImage = {
-      width: "100%"
-    };
-    const formStyle = {
-      display: "flex",
-      flexDirection: "column",
-      width: "30%",
-      margin: "0 auto"
-    };
+    const requestsOrOffersArray = this.props.user.foodConsumer ? this.state.foodRequests : this.state.foodOffers;
     return (
-      <form ref={this.form} style={formStyle} onSubmit={this.handleSubmit}>
-        <h2>{this.state.error}</h2>
-        <h3>Profile</h3>
-        {this.state.img && (
-          <div style={profileImageDiv}>
-            <img
-              style={profileImage}
-              src={`http://localhost:5000/images/${this.state.img}`}
-              alt='profile pic'
+      <div className='columns' style={{margin: '0'}} >
+        <form 
+          ref={this.form}
+          className='column is-one-third'
+          style={{padding: '5%', textAlign: 'center'}}
+          onSubmit={this.handleSubmit}
+        >
+          {this.state.img && (
+            <div className="container" style={{maxWidth: '100%'}}>
+              <figure className='image is-128x128'>
+                <img
+                  src={`http://localhost:5000/images/${this.state.img}`}
+                  alt='profile pic'
+                />
+              </figure>
+            </div>
+          )}
+
+          <h2>{this.state.error}</h2>
+          <div className='field'>
+            <label className='label'>Username</label>
+            <div className='control has-icons-left has-icons-right'>
+              <input
+                className='input is-success'
+                type='email'
+                placeholder='Username'
+                name='username'
+                value={this.state.username}
+                onChange={this.handleChange}
+              />
+              <span className='icon is-small is-left'>
+                <i className='fas fa-user' />
+              </span>
+              <span className='icon is-small is-right'>
+                <i className='fas fa-check' />
+              </span>
+            </div>
+          </div>
+
+          <div className='field'>
+            <label className='label'>First name</label>
+            <div className='control'>
+              <input
+                className='input'
+                type='text'
+                name='firstName'
+                value={this.state.firstName}
+                onChange={this.handleChange}
+                placeholder='First name'
+              />
+            </div>
+          </div>
+
+          <div className='field'>
+            <label className='label'>Last name</label>
+            <div className='control'>
+              <input
+                className='input'
+                type='text'
+                name='lastName'
+                value={this.state.lastName}
+                onChange={this.handleChange}
+                placeholder='last name'
+              />
+            </div>
+          </div>
+          <div className='field'>
+            <label className='label'>Address</label>
+            <input
+              className='input'
+              type='text'
+              name='address'
+              value={this.state.address}
+              onChange={this.handleChange}
+              placeholder='address'
             />
           </div>
-        )}
-        <input
-          type='email'
-          name='username'
-          value={this.state.username}
-          onChange={this.handleChange}
-        />
-        <input
-          type='text'
-          name='firstName'
-          value={this.state.firstName}
-          onChange={this.handleChange}
-          placeholder='first name'
-        />
-        <input
-          type='text'
-          name='lastName'
-          value={this.state.lastName}
-          onChange={this.handleChange}
-          placeholder='last name'
-        />{" "}
-        <input
-          type='text'
-          name='address'
-          value={this.state.address}
-          onChange={this.handleChange}
-          placeholder='address'
-        />
-        <div className='file'>
-          <label className='file-label' htmlFor='profile-picture'>
-            <input
-              className='file-input'
-              type='file'
-              name='profile-picture'
-              id='profile-picture'
-            />
-            <span className='file-cta'>
-              <span className='file-icon'>
-                <i className='fas fa-upload' />
-              </span>
-              <span className='file-label'>Choose a file…</span>
-            </span>
-          </label>
+
+          <div className='field'>
+            <div className='file'>
+              <label className='file-label' htmlFor='profile-picture'>
+                Profile picture
+                <input
+                  className='file-input'
+                  type='file'
+                  name='profile-picture'
+                  id='profile-picture'
+                />
+                <span className='file-cta'>
+                  <span className='file-icon'>
+                    <i className='fas fa-upload' />
+                  </span>
+                  <span className='file-label'>Choose a file…</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div className='field'>
+            <div className='control'>
+              <label className='radio'>
+                <input
+                  id='foodsupplier'
+                  type='radio'
+                  name='userType'
+                  value='foodSupplier'
+                  required
+                  checked={
+                    this.state.userType === "foodSupplier" ||
+                    this.state.foodSupplier === true
+                  }
+                  onChange={this.handleChange}
+                />
+                Foodsupplier
+              </label>
+              <label className='radio'>
+                <input
+                  id='foodconsumer'
+                  type='radio'
+                  name='userType'
+                  value='foodConsumer'
+                  checked={
+                    this.state.userType === "foodConsumer" ||
+                    this.state.foodConsumer === true
+                  }
+                  onChange={this.handleChange}
+                />
+                Foodconsumer
+              </label>
+            </div>
+          </div>
+
+          <div className='field'>
+            <div className='control'>
+              <input className='button is-link' type='submit' value='Submit' />
+            </div>
+          </div>
+        </form>
+
+        <div className='column is-two-third is-8' style={{padding: '5%', textAlign: 'center'}}>
+        <h1 className='is-size-2' style={{width: '60%'}}>The food I {this.state.foodConsumer ? `requested` : `offered`}</h1>
+        <br />
+          <table className='table' >
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Desciption</th>
+                <th>Amount</th>
+                <th>Food hero</th>
+                <th>{this.state.foodConsumer ? `Offered` :   `Accepted`  }</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.foodRequests &&
+                requestsOrOffersArray.map((foodRequest, index )=> (
+                  <tr key={`tr-${index}`}>
+                    <td>{foodRequest.groceryItem.name}</td>
+                    <td> {foodRequest.description}</td>
+                    <td>{foodRequest.amount}</td>
+                {foodRequest.acceptedBy && <td>{foodRequest.acceptedBy.firstName}</td> }
+                {foodRequest.acceptedAt && <td>{moment(foodRequest.acceptedAt).toNow(true)}</td> }
+
+                  </tr>
+
+                ))}
+            </tbody>
+          </table>
         </div>
-        <label htmlFor='foodsupplier'>
-          <input
-            id='foodsupplier'
-            type='radio'
-            name='userType'
-            value='foodSupplier'
-            required
-            checked={
-              this.state.userType === "foodSupplier" ||
-              this.state.foodSupplier === true
-            }
-            onChange={this.handleChange}
-          />
-          Foodsupplier
-        </label>
-        <label htmlFor='foodconsumer'>
-          <input
-            id='foodconsumer'
-            type='radio'
-            name='userType'
-            value='foodConsumer'
-            checked={
-              this.state.userType === "foodConsumer" ||
-              this.state.foodConsumer === true
-            }
-            onChange={this.handleChange}
-          />
-          Foodconsumer
-        </label>
-        <input type='submit' value='Submit' />
-      </form>
+      </div>
     );
   }
 }

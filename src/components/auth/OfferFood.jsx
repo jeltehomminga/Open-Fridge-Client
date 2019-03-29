@@ -45,6 +45,13 @@ class OfferFood extends Component {
         this.setState({ err: err.message });
       });
   };
+  imageDivStyle = {
+    width: "70%",
+    margin: "auto auto"
+  };
+  imageStyle = {
+    width: "30%"
+  };
   render() {
     const groceryOptionsMap =
       this.state.groceryOptions &&
@@ -67,67 +74,110 @@ class OfferFood extends Component {
       }
     }
     return (
-      <form ref={this.form} onSubmit={this.handleSubmit}>
-        <h2>What do you have to offer!?</h2>
-        <div>
-          <label htmlFor="">Description:</label>
-          <input
-            type="text"
-            name="description"
-            value={this.state.description}
-            onChange={this.handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="groceryitem">Grocery item</label>
-          <select name="groceryItem" onChange={this.handleChange}>
-            {groceryOptionsMap}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="">Amount</label>
-          <input
-            type="number"
-            name="amount"
-            onChange={this.handleChange}
-            value={this.state.amount}
-          />
-        </div>
-        <div>
-          <label htmlFor="expiryDate">Expiry Date</label>
-          <input
-            type="date"
-            name="expiryDate"
-            required
-            onChange={this.handleChange}
-            value={this.state.expiryDate}
-          />
-        </div>
-        
-        <div className="file">
-          <label className="file-label" htmlFor="groceryitem-picture">
-            <input className="file-input" type="file" name="groceryitem-picture" />
-            <span className="file-cta">
-              <span className="file-icon">
-                <i className="fas fa-upload" />
-              </span>
-              <span className="file-label">Choose a file…</span>
-            </span>
-          </label>
-        </div>
+      <div className='columns' style={{ margin: "0" }}>
+        <form
+          className='column is-one-third'
+          style={{ padding: "5%", textAlign: "left" }}
+          ref={this.form}
+          onSubmit={this.handleSubmit}
+        >
+          <h1 className='is-size-4' >What do you have to offer!?</h1>
+          <br/>
 
-        <button type="submit">Offer the food</button>
-        {this.state.groceryOptions && (
-          <img
-            src={`http://localhost:5000/images/${
-              this.state.img
-                ? this.state.img
-                : groceryImg[this.state.groceryItem]
-            }`}
-            alt="selectedgroceryitem"
-          />
-        )}
-      </form>
+          <div className='field'>
+            <label className='label'>Description:</label>
+            <input
+              className='input'
+              type='text'
+              name='description'
+              value={this.state.description}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <div className='field'>
+            <label className='label' htmlFor='groceryitem'>
+              Grocery item
+            </label>
+            <div className='select'>
+              <select name='groceryItem' onChange={this.handleChange}>
+                {groceryOptionsMap}
+              </select>
+            </div>
+          </div>
+
+          <div className='field'>
+            <label className='label'>Amount</label>
+            <input
+              className='input'
+              type='number'
+              name='amount'
+              onChange={this.handleChange}
+              value={this.state.amount}
+            />
+          </div>
+          <div className='field'>
+            <label className='label' htmlFor='expiryDate'>
+              Expiry Date
+            </label>
+            <input
+              className='input'
+              type='date'
+              name='expiryDate'
+              required
+              onChange={this.handleChange}
+              value={this.state.expiryDate}
+            />
+          </div>
+
+          <div className='field'>
+            <div
+              className='file'
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <label className='label' htmlFor='groceryitem-picture'>
+                Grocery image
+              </label>
+              <input
+                className='file-input'
+                type='file'
+                name='groceryitem-picture'
+                id='groceryitem-picture'
+              />
+              <span className='file-cta'>
+                <span className='file-icon'>
+                  <i className='fas fa-upload' />
+                </span>
+                <span className='file-label'>Choose a file…</span>
+              </span>
+            </div>
+          </div>
+          <br/>
+          <div className='field'>
+            <div className='control'>
+              <input
+                className='button is-link'
+                type='submit'
+                value='Offer The food'
+              />
+            </div>
+          </div>
+        </form>
+
+        <div style={this.imageDivStyle} className='column is-one-third' >
+          {this.state.groceryOptions && (
+            <img
+              style={this.imageStyle}
+              src={`http://localhost:5000/images/${
+                this.state.img
+                  ? this.state.img
+                  : groceryImg[this.state.groceryItem]
+              }`}
+              alt='selectedgroceryitem'
+            />
+          )}
+        </div>
+      </div>
     );
   }
 }

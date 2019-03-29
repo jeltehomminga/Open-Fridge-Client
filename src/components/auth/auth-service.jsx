@@ -25,7 +25,9 @@ class AuthService {
     return this.service.get('/groceryitems').then(response => response.data)
   }
   foodRequest = (data) => {
-      return this.service.post(`/foodrequest`, data).then(response => response.data)
+      return this.service.post(`/foodrequest`, data).then(response => {
+       return response.data}
+        )
   }
 }
 

@@ -14,6 +14,7 @@ import OfferFood from "./components/auth/OfferFood";
 import RequestFood from './components/auth/RequestFood';
 import FoodOffers from './components/auth/FoodOffers';
 import FoodRequests from './components/auth/FoodRequests';
+// import About from './components/auth/About';
 
 const history = createBrowserHistory();
 
@@ -44,6 +45,12 @@ class App extends Component {
     return (
       <div className="App">
         {/* <header className="App-header"> */}
+
+        <section className="hero is-primary is-medium is-bold is-fullheight">
+
+  <div className="hero-head">
+
+
         <Navbar
           {...this.props}
           loggedIn={this.state.loggedIn}
@@ -51,6 +58,12 @@ class App extends Component {
           logOut={this.logOut}
           history={history}
         />
+
+</div>
+
+<div className="hero-body is-bold is-paddingless is-fullheight">
+
+<div className="container has-text-centered">
 
         <Switch>
           <Route
@@ -102,9 +115,13 @@ class App extends Component {
             logIn={this.logIn}
           />
         </Switch>
+        </div>
+        </div>
 
         {/* </header> */}
+        </section>
       </div>
+      
     );
   }
 }
