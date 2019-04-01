@@ -19,9 +19,9 @@ const Navbar = props => {
     return (
       <nav className='navbar' role='navigation' aria-label='main navigation'>
         <div className='navbar-brand'>
-          <a className='navbar-item' href='/about'>
+          <Link className='navbar-item' to='/about'>
             <h1 style={{ fontFamily: "Orbitron, sans-serif" }}>Open Fridge</h1>
-          </a>
+          </Link>
           <div
             role='button'
             className='navbar-burger burger'
@@ -77,9 +77,9 @@ const Navbar = props => {
   const NavUnauthenticated = props => (
     <nav className='navbar' role='navigation' aria-label='main navigation'>
       <div className='navbar-brand'>
-        <a className='navbar-item' href='/about'>
+        <Link className='navbar-item' to='/about'>
           <h1 style={{ fontFamily: "Orbitron, sans-serif" }}>Open Fridge</h1>
-        </a>
+        </Link>
         <div
           role='button'
           className='navbar-burger burger'
