@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AuthService from "./auth-service";
 import axios from "axios";
 import "bulma/css/bulma.css";
-import moment from 'moment';
+import moment from "moment";
 
 class Profile extends Component {
   form = React.createRef(); //Creating a ref (new!)
@@ -17,9 +17,8 @@ class Profile extends Component {
     axios({
       method: "get",
       withCredentials: "true",
-      url: `http://localhost:5000/api/foodrequests/`
+      url: `${process.env.REACT_APP_API_URL}/foodrequests/`
     }).then(response => {
-
       const foodRequests = response.data.filter(
         foodRequest => foodRequest.foodConsumer._id === this.props.user._id
       );
@@ -29,9 +28,8 @@ class Profile extends Component {
     axios({
       method: "get",
       withCredentials: "true",
-      url: `http://localhost:5000/api/foodoffers/`
+      url: `${process.env.REACT_APP_API_URL}/foodoffers/`
     }).then(response => {
-
       const foodOffers = response.data.filter(
         foodOffer => foodOffer.foodSupplier._id === this.props.user._id
       );
@@ -44,35 +42,44 @@ class Profile extends Component {
     let formData = new FormData(this.form.current);
     axios({
       method: "put",
-      url: `http://localhost:5000/api/user/${this.props.user._id}`,
+      url: `${process.env.REACT_APP_API_URL}/user/${this.props.user._id}`,
       config: { headers: { "Content-Type": "multipart/form-data" } }, //New! This is a different encoding type, because we're uploading files
       data: formData,
       withCredentials: true
     })
       .then(response => {
-        this.props.logIn({ loggedIn: true, user: response.data.response })
-          this.state.foodSupplier
-          ? this.props.history.push(`/offerfood/${this.props.user._id}`)
-          : this.props.history.push(`/requestfood/${this.props.user._id}`)
-
+        this.props.logIn({ loggedIn: true, user: response.data.response });
+        if (response.data.response.foodSupplier) {
+          this.props.history.push(`/offerfood/${this.props.user._id}`);
+        } else {
+          this.props.history.push(`/requestfood/${this.props.user._id}`);
+        }
       })
       .catch(err => {
         this.setState({ err: err.message, success: "" });
       });
   };
   render() {
-    const requestsOrOffersArray = this.props.user.foodConsumer ? this.state.foodRequests : this.state.foodOffers;
+    const requestsOrOffersArray = this.props.user.foodConsumer
+      ? this.state.foodRequests
+      : this.state.foodOffers;
     return (
-      <div className='columns' style={{margin: '0'}} >
-        <form 
+      <div className='columns' style={{ margin: "0" }}>
+        <form
           ref={this.form}
           className='column is-one-third'
-          style={{padding: '5%', textAlign: 'center'}}
+          style={{ padding: "5%", textAlign: "center" }}
           onSubmit={this.handleSubmit}
         >
           {this.state.img && (
-            <div className="container" style={{maxWidth: '100%'}}>
-              <figure className='image is-128x128'>
+            <div
+              className='container'
+              style={{ maxWidth: "100%", padding: "20px" }}
+            >
+              <figure
+                className='image is-128x128'
+                style={{ margin: "auto auto" }}
+              >
                 <img
                   src={`http://localhost:5000/images/${this.state.img}`}
                   alt='profile pic'
@@ -142,22 +149,25 @@ class Profile extends Component {
           </div>
 
           <div className='field'>
-            <div className='file'>
-              <label className='file-label' htmlFor='profile-picture'>
+            <div
+              className='file'
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <label className='label' htmlFor='profile-picture'>
                 Profile picture
-                <input
-                  className='file-input'
-                  type='file'
-                  name='profile-picture'
-                  id='profile-picture'
-                />
-                <span className='file-cta'>
-                  <span className='file-icon'>
-                    <i className='fas fa-upload' />
-                  </span>
-                  <span className='file-label'>Choose a file…</span>
-                </span>
               </label>
+              <input
+                className='file-input'
+                type='file'
+                name='profile-picture'
+                id='profile-picture'
+              />
+              <span className='file-cta'>
+                <span className='file-icon'>
+                  <i className='fas fa-upload' />
+                </span>
+                <span className='file-label'>Choose a file…</span>
+              </span>
             </div>
           </div>
 
@@ -202,31 +212,38 @@ class Profile extends Component {
           </div>
         </form>
 
-        <div className='column is-two-third is-8' style={{padding: '5%', textAlign: 'center'}}>
-        <h1 className='is-size-2' style={{width: '60%'}}>The food I {this.state.foodConsumer ? `requested` : `offered`}</h1>
-        <br />
-          <table className='table' >
+        <div
+          className='column is-two-third is-8'
+          style={{ padding: "5%", textAlign: "center" }}
+        >
+          <h1 className='is-size-2' style={{ width: "60%" }}>
+            The food I {this.state.foodConsumer ? `requested` : `offered`}
+          </h1>
+          <br />
+          <table className='table'>
             <thead>
               <tr>
                 <th>Item</th>
                 <th>Desciption</th>
                 <th>Amount</th>
                 <th>Food hero</th>
-                <th>{this.state.foodConsumer ? `Offered` :   `Accepted`  }</th>
+                <th>{this.state.foodConsumer ? `Offered` : `Accepted`}</th>
               </tr>
             </thead>
             <tbody>
               {this.state.foodRequests &&
-                requestsOrOffersArray.map((foodRequest, index )=> (
+                requestsOrOffersArray.map((foodRequest, index) => (
                   <tr key={`tr-${index}`}>
                     <td>{foodRequest.groceryItem.name}</td>
                     <td> {foodRequest.description}</td>
                     <td>{foodRequest.amount}</td>
-                {foodRequest.acceptedBy && <td>{foodRequest.acceptedBy.firstName}</td> }
-                {foodRequest.acceptedAt && <td>{moment(foodRequest.acceptedAt).toNow(true)}</td> }
-
+                    {foodRequest.acceptedBy && (
+                      <td>{foodRequest.acceptedBy.firstName}</td>
+                    )}
+                    {foodRequest.acceptedAt && (
+                      <td>{moment(foodRequest.acceptedAt).toNow(true)} ago</td>
+                    )}
                   </tr>
-
                 ))}
             </tbody>
           </table>

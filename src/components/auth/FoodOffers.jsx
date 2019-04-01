@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import moment from 'moment';
 
 class FoodOffers extends Component {
   state = {
@@ -9,7 +10,7 @@ class FoodOffers extends Component {
     axios({
       method: "get",
       withCredentials: "true",
-      url: `http://localhost:5000/api/foodoffers`
+      url: `${process.env.REACT_APP_API_URL}/foodoffers`
     }).then(response => {
       this.setState({ foodOffers: response.data });
     });
@@ -22,7 +23,7 @@ class FoodOffers extends Component {
     axios({
       method: "post",
       withCredentials: "true",
-      url: `http://localhost:5000/api/acceptoffer/${offerId}`
+      url: `${process.env.REACT_APP_API_URL}/acceptoffer/${offerId}`
     }).then(response => {
        this.props.history.push("/profile");
     });
@@ -31,8 +32,7 @@ class FoodOffers extends Component {
     const equalHeight = {
       height: "100%"
     };
-
-    return (
+     return (
       <div>
         <section className='section cards'>
           <div className='columns is-multiline'>
@@ -76,13 +76,14 @@ class FoodOffers extends Component {
                       </div>
 
                       <div className='content'>
-                        {foodOffer.description}
-
+                      <div>{foodOffer.description}</div>
+                        
                         <br />
-                        <time dateTime='2016-1-1'>11:09 PM - 1 Jan 2016</time>
+                        <div>Offered: { moment(foodOffer.createdAt).format('DD-MM-YY')}</div>
+                        <div> {foodOffer.expiryDate && 'Will expire in: ' +   moment(foodOffer.expiryDate).toNow(true)}</div>
                       </div>
                     </div>
-                    <footer className='card-footer'>
+                    <footer className='card-footer' >
                       <p className='card-footer-item'>
                         <span>
                           <span
@@ -112,7 +113,7 @@ class FoodOffers extends Component {
                         />
                       </header>
                       <section className='modal-card-body'>
-                        <figure className='image is-4by3'>
+                        <figure className='image is-squared'>
                           <img
                             src={`http://localhost:5000/images/${
                               foodOffer.img
@@ -120,6 +121,7 @@ class FoodOffers extends Component {
                                 : foodOffer.groceryItem.defaultImg
                             }`}
                             alt='foodoffer'
+                            style={{width: '200px', margin: 'auto'}}
                           />
                         </figure>
 

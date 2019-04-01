@@ -20,6 +20,11 @@ body {
   padding: 25px;
 }
 
+.container-about {
+
+  flex-direction: row;
+}
+
 
 
 @media only screen and (max-width: 600px) {
@@ -29,5 +34,10 @@ body {
 
   #home-container {
     flex-direction: column-reverse;
+  }
+
+  .container-about {
+
+    flex-direction: column;
   }
 }

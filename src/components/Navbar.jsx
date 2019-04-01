@@ -15,27 +15,6 @@ const Navbar = props => {
       });
   };
 
-  // const userTypeNav = props => {
-  //   return (
-  //     <>
-  //     {props.user.foodConsumer ? (
-  //       <Link className='navbar-item' to='/foodoffers'>
-  //         Food offers
-  //       </Link>
-  //       <Link className='navbar-item' to='/requestfood'>
-  //         Request food
-  //       </Link>) : (
-  //                 <Link className='navbar-item' to='/foodrequests'>
-  //                 Food requests
-  //               </Link>
-  //                         <Link className='navbar-item' to='/offerfood'>
-  //                         Offer food
-  //                       </Link>)
-
-  //     }
-  //     </>
-  //   );
-  // };
   const NavAuthenticated = props => {
     return (
       <nav className='navbar' role='navigation' aria-label='main navigation'>
@@ -108,9 +87,9 @@ const Navbar = props => {
           aria-expanded='false'
           data-target='navbarBasicExample'
         >
-          <span aria-hidden='true'>wat</span>
-          <span aria-hidden='true'>is</span>
-          <span aria-hidden='true'>dit?</span>
+          <span aria-hidden='true'></span>
+          <span aria-hidden='true'></span>
+          <span aria-hidden='true'></span>
         </div>
       </div>
       <div id='navbarBasicExample' className='navbar-menu'>

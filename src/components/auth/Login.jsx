@@ -33,23 +33,48 @@ class Login extends Component {
   };
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form
+        onSubmit={this.handleSubmit}
+        style={{ width: "50%", margin: "auto auto" }}
+      >
         <h2>{this.state.error}</h2>
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          onChange={this.handleChange}
-          placeholder="Name:"
-        />
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handleChange}
-          placeholder="Password:"
-        />
-        <input type="submit" value="Submit" />
+
+        <div className='field'>
+
+          <div className='control has-icons-left has-icons-right'>
+            <input
+              className='input is-success'
+              type='email'
+              placeholder='Username'
+              name='username'
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+            <span className='icon is-small is-left'>
+              <i className='fas fa-user' />
+            </span>
+            <span className='icon is-small is-right'>
+              <i className='fas fa-check' />
+            </span>
+          </div>
+        </div>
+        <div className='field'>
+
+          <input
+            className='input'
+            type='password'
+            name='password'
+            value={this.state.password}
+            onChange={this.handleChange}
+            placeholder='Password:'
+          />
+        </div>
+        <div className='field'>
+          <div className='control'>
+            <input className='button is-link' type='submit' value='Sign in!' />
+          </div>
+        </div>
+        <br />
       </form>
     );
   }

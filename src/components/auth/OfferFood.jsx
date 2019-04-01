@@ -26,14 +26,13 @@ class OfferFood extends Component {
     let formData = new FormData(this.form.current);
     axios({
       method: "post",
-      url: `http://localhost:5000/api/foodoffer`,
+      url: `${process.env.REACT_APP_API_URL}/foodoffer`,
       config: { headers: { "Content-Type": "multipart/form-data" } }, //New! This is a different encoding type, because we're uploading files
       data: formData,
       withCredentials: true
     })
       .then(response => {
-        debugger;
-        this.setState({
+         this.setState({
           success: response.data.message,
           img: response.data.img,
           err: ""

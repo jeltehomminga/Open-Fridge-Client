@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import moment from 'moment';
 
 class FoodRequests extends Component {
   state = {
@@ -9,7 +10,7 @@ class FoodRequests extends Component {
     axios({
       method: "get",
       withCredentials: "true",
-      url: `http://localhost:5000/api/foodrequests`
+      url: `${process.env.REACT_APP_API_URL}/foodrequests`
     }).then(response => {
       this.setState({ foodRequests: response.data });
     });
@@ -23,7 +24,7 @@ class FoodRequests extends Component {
     axios({
       method: "post",
       withCredentials: "true",
-      url: `http://localhost:5000/api/acceptrequest/${requestId}`
+      url: `${process.env.REACT_APP_API_URL}/acceptrequest/${requestId}`
     }).then(response => {
       this.props.history.push("/profile");
     });
@@ -79,8 +80,9 @@ class FoodRequests extends Component {
                       </div>
 
                       <div className='content'>
-                        {foodRequest.description}
-                        <time dateTime='2016-1-1'>11:09 PM - 1 Jan 2016</time>
+                          <div>{foodRequest.description}</div>
+                        
+                        <div>Requested: { moment(foodRequest.createdAt).format('DD-MM-YY')}</div>
                       </div>
                     </div>
                     <footer className='card-footer'>
@@ -88,8 +90,6 @@ class FoodRequests extends Component {
                         <span
                           id={`modal-button-${index}`}
                           onClick={e => this.openModal(e, index)}
-                          //  onClick={e =>
-                          //       this.acceptRequest(e, foodRequest._id)}
                         >
                           Yes, I have it for you!
                         </span>
@@ -103,9 +103,9 @@ class FoodRequests extends Component {
                     <div className='modal-background' />
                     <div className='modal-card'>
                       <header className='modal-card-head'>
-                        <p className='modal-card-title'>{`You will get ${
+                        <p className='modal-card-title'>{`You will give ${
                           foodRequest.groceryItem.name
-                        } from ${foodRequest.foodConsumer.firstName} `}</p>
+                        } to ${foodRequest.foodConsumer.firstName} `}</p>
                         <button
                           className='delete'
                           aria-label='close'
@@ -113,7 +113,7 @@ class FoodRequests extends Component {
                         />
                       </header>
                       <section className='modal-card-body'>
-                        <figure className='image is-4by3'>
+                        <figure className='image is-squared'>
                           <img
                             src={`http://localhost:5000/images/${
                               foodRequest.img
@@ -121,7 +121,7 @@ class FoodRequests extends Component {
                                 : foodRequest.groceryItem.defaultImg
                             }`}
                             alt='foodoffer'
-                          />
+                          style={{width: '200px', margin: 'auto'}}/>
                         </figure>
 
                         <div className='media'>
@@ -148,7 +148,7 @@ class FoodRequests extends Component {
                       <footer className='modal-card-foot'>
                         <button
                           className='button is-success'
-                          onClick={e => this.acceptOffer(e, foodRequest._id)}
+                          onClick={e => this.acceptRequest(e, foodRequest._id)}
                         >
                           Cool!
                         </button>

@@ -14,7 +14,7 @@ import OfferFood from "./components/auth/OfferFood";
 import RequestFood from './components/auth/RequestFood';
 import FoodOffers from './components/auth/FoodOffers';
 import FoodRequests from './components/auth/FoodRequests';
-// import About from './components/auth/About';
+import About from './components/About';
 
 const history = createBrowserHistory();
 
@@ -23,6 +23,7 @@ class App extends Component {
     loggedIn: false,
     user: {}
   };
+  
   service = new AuthService();
   logIn = loginState => {
     const { user, loggedIn } = loginState;
@@ -71,6 +72,11 @@ class App extends Component {
             path="/"
             render={props => <Home {...props} loggedIn={this.state.loggedIn} />}
           />
+                    <Route
+            exact
+            path="/about"
+            render={props => <About {...props} loggedIn={this.state.loggedIn} user={this.state.user} />}
+          />
           <Route
             path="/signup"
             render={props => <Signup {...props} logIn={this.logIn} />}
@@ -117,8 +123,6 @@ class App extends Component {
         </Switch>
         </div>
         </div>
-
-        {/* </header> */}
         </section>
       </div>
       

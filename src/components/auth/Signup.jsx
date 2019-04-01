@@ -5,7 +5,7 @@ class Signup extends Component {
   state = {
     username: "",
     password: "",
-    error: "",
+    error: ""
   };
   service = new AuthService();
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -18,37 +18,61 @@ class Signup extends Component {
           username: "",
           password: ""
         });
-        this.props.logIn({loggedIn: true, user: responseData})
-        this.props.history.push('/profile');
+        this.props.logIn({ loggedIn: true, user: responseData });
+        this.props.history.push("/profile");
       })
       .catch(error => {
-        const errmessage = error.response.data.message ? error.response.data.message : error;
-          this.setState({
-            username: "",
-            password: "",
-            error: errmessage
-          });
-          console.log(error)
+
+        this.setState({
+          username: "",
+          password: "",
+          error: "username taken"
         });
+        console.log(error);
+      });
   };
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-      <h2>{this.state.error}</h2>
+      <form
+        onSubmit={this.handleSubmit}
+        style={{ width: "50%", margin: "auto auto" }}
+      >
+        <h2>{this.state.error}</h2>
+
+        <div className='field'>
+          <div className='control has-icons-left has-icons-right'>
+            <input
+              className='input is-success'
+              type='email'
+              placeholder='Username'
+              name='username'
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+            <span className='icon is-small is-left'>
+              <i className='fas fa-user' />
+            </span>
+            <span className='icon is-small is-right'>
+              <i className='fas fa-check' />
+            </span>
+          </div>
+        </div>
+        <div className='field'>
           <input
-            type="email"
-            name="username"
-            value={this.state.username}
-            onChange={this.handleChange}
-          />
-          <input
-            type="password"
-            name="password"
+            className='input'
+            type='password'
+            name='password'
             value={this.state.password}
             onChange={this.handleChange}
+            placeholder='Password:'
           />
-          <input type="submit" value="Submit" />
-        {/* </label> */}
+        </div>
+        <div className='field'>
+          <div className='control'>
+            <input className='button is-link' type='submit' value='Sign Up!' />
+          </div>
+        </div>
+        <br />
       </form>
     );
   }

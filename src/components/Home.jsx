@@ -5,7 +5,7 @@ const Home = props => {
   const homeStyle = {
     margin: "0 auto",
     display: "flex",
-    width: "70%",
+    width: "100%",
     justifyContent: "",
     alignItems: "center"
   };
@@ -16,16 +16,16 @@ const Home = props => {
       <div className="container home-item">
         <img src="/fridgehome.png" alt="" style={{width: '65%'}}/>
       </div>
-      <div>
+      <div style={{width: '100%'}}>
         {props.loggedIn ?         (
           <div className='home-item'>
-            <h1 className="is-size-1">Open fridge</h1>
+            <h1 className="is-size-1" style={{marginBottom: '20px'}}>Open fridge</h1>
             <h2>Keep it cool!</h2>
           </div>
         )   : (
-          <div className='home-item'>
-            <h1 className="is-size-1">Open fridge</h1>
-            <h2>Sign up now!</h2>
+          <div className='home-item' style={{width: '100%'}}>
+            <h1 className="is-size-1" style={{marginBottom: '20px'}}>Open fridge</h1>
+
             <Signup />
           </div>
         )}
