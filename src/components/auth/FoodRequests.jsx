@@ -48,7 +48,7 @@ class FoodRequests extends Component {
                     >
                       <figure className='image is-square'>
                         <img
-                          src={`http://localhost:5000/images/${
+                          src={`${process.env.REACT_APP_URL}/images/${
                             foodRequest.img
                               ? foodRequest.img
                               : foodRequest.groceryItem.defaultImg
@@ -62,7 +62,7 @@ class FoodRequests extends Component {
                         <div className='media-left'>
                           <figure className='image is-48x48'>
                             <img
-                              src={`http://localhost:5000/images/${foodRequest
+                              src={`${process.env.REACT_APP_URL}/images/${foodRequest
                                 .foodConsumer.img &&
                                 foodRequest.foodConsumer.img}`}
                               alt='foodsupplier'
@@ -115,7 +115,7 @@ class FoodRequests extends Component {
                       <section className='modal-card-body'>
                         <figure className='image is-squared'>
                           <img
-                            src={`http://localhost:5000/images/${
+                            src={`${process.env.REACT_APP_URL}/images/${
                               foodRequest.img
                                 ? foodRequest.img
                                 : foodRequest.groceryItem.defaultImg
@@ -128,7 +128,7 @@ class FoodRequests extends Component {
                           <div className='media-left'>
                             <figure className='image is-48x48'>
                               <img
-                                src={`http://localhost:5000/images/${foodRequest
+                                src={`${process.env.REACT_APP_URL}/images/${foodRequest
                                   .foodConsumer.img &&
                                   foodRequest.foodConsumer.img}`}
                                 alt='foodsupplier'

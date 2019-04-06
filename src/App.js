@@ -34,9 +34,6 @@ class App extends Component {
     const { user, loggedIn } = logoutState;
     this.setState({ loggedIn, user });
     localStorage.setItem("state", JSON.stringify(logoutState));
-    // history.push('/');
-    //TOFO: How to redirect to home!? history or redirect not working
-    // return <Redirect to ='/' />;
   };
   componentWillMount() {
     this.setState(JSON.parse(localStorage.getItem("state")));

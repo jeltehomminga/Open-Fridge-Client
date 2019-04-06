@@ -46,7 +46,7 @@ class FoodOffers extends Component {
                     <div className='card-image' style={{width: '80%', margin: '25px', padding: '25px'}}>
                       <figure className='image is-square' >
                         <img 
-                          src={`http://localhost:5000/images/${
+                          src={`${process.env.REACT_APP_URL}/images/${
                             foodOffer.img
                               ? foodOffer.img
                               : foodOffer.groceryItem.defaultImg
@@ -60,7 +60,7 @@ class FoodOffers extends Component {
                         <div className='media-left'>
                           <figure className='image is-48x48'>
                             <img
-                              src={`http://localhost:5000/images/${foodOffer
+                              src={`${process.env.REACT_APP_URL}/images/${foodOffer
                                 .foodSupplier.img &&
                                 foodOffer.foodSupplier.img}`}
                               alt='foodsupplier' 
@@ -115,7 +115,7 @@ class FoodOffers extends Component {
                       <section className='modal-card-body'>
                         <figure className='image is-squared'>
                           <img
-                            src={`http://localhost:5000/images/${
+                            src={`${process.env.REACT_APP_URL}/images/${
                               foodOffer.img
                                 ? foodOffer.img
                                 : foodOffer.groceryItem.defaultImg
@@ -129,7 +129,7 @@ class FoodOffers extends Component {
                           <div className='media-left'>
                             <figure className='image is-48x48'>
                               <img
-                                src={`http://localhost:5000/images/${foodOffer
+                                src={`${process.env.REACT_APP_URL}/images/${foodOffer
                                   .foodSupplier.img &&
                                   foodOffer.foodSupplier.img}`}
                                 alt='foodsupplier'

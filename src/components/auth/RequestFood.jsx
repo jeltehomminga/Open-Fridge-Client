@@ -119,7 +119,7 @@ class RequestFood extends Component {
           {this.state.groceryOptions && (
             <img
               style={this.imageStyle}
-              src={`http://localhost:5000/images/${
+              src={`${process.env.REACT_APP_URL}/images/${
                 groceryImg[this.state.form.groceryItem]
               }`}
               alt='selectedgroceryitem'

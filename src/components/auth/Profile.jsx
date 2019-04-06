@@ -81,7 +81,7 @@ class Profile extends Component {
                 style={{ margin: "auto auto" }}
               >
                 <img
-                  src={`http://localhost:5000/images/${this.state.img}`}
+                  src={`${process.env.REACT_APP_URL}/images/${this.state.img}`}
                   alt='profile pic'
                 />
               </figure>

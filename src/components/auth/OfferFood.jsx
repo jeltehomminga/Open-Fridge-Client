@@ -167,7 +167,7 @@ class OfferFood extends Component {
           {this.state.groceryOptions && (
             <img
               style={this.imageStyle}
-              src={`http://localhost:5000/images/${
+              src={`${process.env.REACT_APP_URL}/images/${
                 this.state.img
                   ? this.state.img
                   : groceryImg[this.state.groceryItem]

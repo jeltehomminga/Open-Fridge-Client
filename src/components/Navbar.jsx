@@ -10,7 +10,6 @@ const Navbar = props => {
 
       .then(responseData => {
         props.logOut({ loggedIn: false, user: {} });
-        //TODO: How to redirect to home after logout? history not working
         props.history.push("/");
       });
   };

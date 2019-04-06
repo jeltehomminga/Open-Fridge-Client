@@ -61,7 +61,7 @@ const About = props => {
           <figure className='media-left'>
             <p className='image is-64x64'>
               <img
-                src='http://localhost:5000/images/profilepics/dessy.jpg'
+                src='https://s3.us-east-2.amazonaws.com/test2bucket-jelte/Dessy.jpg'
                 alt='comment-starter-pic'
               />
             </p>
@@ -88,7 +88,8 @@ const About = props => {
               <figure className='media-left'>
                 <p className='image is-48x48'>
                   <img
-                    src='http://localhost:5000/images/profilepics/Stella2.jpg'
+                    src={process.env.REACT_APP_URL + '/images/profilepics/Stella2.jpg'} 
+
                     alt='comment-reply-pic'
                   />
                 </p>
@@ -114,7 +115,7 @@ const About = props => {
               <figure className='media-left'>
                 <p className='image is-48x48'>
                   <img
-                    src='http://localhost:5000/images/profilepics/oma.jpg'
+                    src={process.env.REACT_APP_URL + '/images/profilepics/oma.jpg'}
                     alt='comment-reply-pic1'
                   />
                 </p>
@@ -144,7 +145,7 @@ const About = props => {
               <img
                 src={
                   props.user.img
-                    ? `http://localhost:5000/images/${props.user.img}`
+                    ? `${process.env.REACT_APP_URL}/images/${props.user.img}`
                     : `https://bulma.io/images/placeholders/128x128.png`
                 }
               alt='user-image3'/>
