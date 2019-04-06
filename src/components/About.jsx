@@ -61,7 +61,7 @@ const About = props => {
           <figure className='media-left'>
             <p className='image is-64x64'>
               <img
-                src='https://s3.us-east-2.amazonaws.com/test2bucket-jelte/Dessy.jpg'
+                src='/profilepics/Dessy.jpg'
                 alt='comment-starter-pic'
               />
             </p>
@@ -88,7 +88,7 @@ const About = props => {
               <figure className='media-left'>
                 <p className='image is-48x48'>
                   <img
-                    src={process.env.REACT_APP_URL + '/images/profilepics/Stella2.jpg'} 
+                    src='/profilepics/Stella.jpg' 
 
                     alt='comment-reply-pic'
                   />
@@ -115,7 +115,7 @@ const About = props => {
               <figure className='media-left'>
                 <p className='image is-48x48'>
                   <img
-                    src={process.env.REACT_APP_URL + '/images/profilepics/oma.jpg'}
+                    src='/profilepics/Oma.jpg'
                     alt='comment-reply-pic1'
                   />
                 </p>
