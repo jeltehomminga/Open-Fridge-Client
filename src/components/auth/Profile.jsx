@@ -231,7 +231,7 @@ class Profile extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.foodRequests &&
+              {this.state.foodRequests && requestsOrOffersArray.length > 0 &&
                 requestsOrOffersArray.map((foodRequest, index) => (
                   <tr key={`tr-${index}`}>
                     <td>{foodRequest.groceryItem.name}</td>
