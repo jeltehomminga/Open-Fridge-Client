@@ -4,6 +4,8 @@ import AuthService from "./auth/auth-service";
 
 const Navbar = props => {
   const service = new AuthService();
+  const hamburgerIcon = React.createRef();
+  const hamburgerMenu = React.createRef();
   const logout = () => {
     return service
       .logout()
@@ -14,25 +16,10 @@ const Navbar = props => {
       });
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const $navbarBurgers = Array.prototype.slice.call(
-      document.querySelectorAll(".navbar-burger"),
-      0
-    );
-    if ($navbarBurgers.length > 0) {
-      $navbarBurgers.forEach(el => {
-        el.addEventListener("click", () => {
-          const target = el.dataset.target;
-          const $target = document.getElementById(target);
-          el.classList.toggle("is-active");
-          $target.classList.toggle("is-active");
-
-        });
-      });
-    }
-  });
-
-
+  const toggleHamburger = () => {
+    hamburgerIcon.current.classList.toggle("is-active");
+    hamburgerMenu.current.classList.toggle("is-active");
+  };
 
   const NavAuthenticated = props => {
     return (
@@ -42,41 +29,51 @@ const Navbar = props => {
             <h1 style={{ fontFamily: "Orbitron, sans-serif" }}>Open Fridge</h1>
           </Link>
           <div
+            ref={hamburgerIcon}
+            id='hamburgericon'
             role='button'
             className='navbar-burger burger'
             aria-label='menu'
             aria-expanded='false'
             data-target='navbarBasicExample'
+            onClick={toggleHamburger}
           >
             <span aria-hidden='true' />
             <span aria-hidden='true' />
             <span aria-hidden='true' />
           </div>
         </div>
-        <div id='navbarBasicExample' className='navbar-menu'>
+        <div
+          ref={hamburgerMenu}
+          id='navbarBasicExample'
+          className='navbar-menu'
+        >
           <div className='navbar-start'>
             <NavLink className='navbar-item' to='/' activeClassName='selected'>
               Home
             </NavLink>
             <Link className='navbar-item' to='/profile'>
               Profile
-            </Link>       
-            {props.user.foodConsumer ? <>
-        <Link className='navbar-item' to='/foodoffers'>
-          Food offers
-        </Link>
-        <Link className='navbar-item' to='/requestfood'>
-          Request food
-        </Link></> : <>
-                  <Link className='navbar-item' to='/foodrequests'>
+            </Link>
+            {props.user.foodConsumer ? (
+              <>
+                <Link className='navbar-item' to='/foodoffers'>
+                  Food offers
+                </Link>
+                <Link className='navbar-item' to='/requestfood'>
+                  Request food
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link className='navbar-item' to='/foodrequests'>
                   Food requests
                 </Link>
-                          <Link className='navbar-item' to='/offerfood'>
-                          Offer food
-                        </Link></>
-
-      }
-
+                <Link className='navbar-item' to='/offerfood'>
+                  Offer food
+                </Link>
+              </>
+            )}
           </div>
 
           <div className='navbar-end'>
@@ -100,18 +97,21 @@ const Navbar = props => {
           <h1 style={{ fontFamily: "Orbitron, sans-serif" }}>Open Fridge</h1>
         </Link>
         <div
+          ref={hamburgerIcon}
+          id='hamburgericon'
           role='button'
           className='navbar-burger burger'
           aria-label='menu'
           aria-expanded='false'
           data-target='navbarBasicExample'
+          onClick={toggleHamburger}
         >
-          <span aria-hidden='true'></span>
-          <span aria-hidden='true'></span>
-          <span aria-hidden='true'></span>
+          <span aria-hidden='true' />
+          <span aria-hidden='true' />
+          <span aria-hidden='true' />
         </div>
       </div>
-      <div id='navbarBasicExample' className='navbar-menu'>
+      <div ref={hamburgerMenu} id='navbarBasicExample' className='navbar-menu'>
         <div className='navbar-start'>
           <NavLink className='navbar-item' to='/' activeClassName='selected'>
             Home
@@ -133,12 +133,6 @@ const Navbar = props => {
       </div>
     </nav>
   );
-
-
-
-
-
-
 
   return (
     <div>

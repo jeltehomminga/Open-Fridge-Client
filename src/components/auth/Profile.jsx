@@ -5,7 +5,7 @@ import "bulma/css/bulma.css";
 import moment from "moment";
 
 class Profile extends Component {
-  form = React.createRef(); //Creating a ref (new!)
+  form = React.createRef(); 
   state = {
     userType: "",
     ...this.props.user,
@@ -37,13 +37,17 @@ class Profile extends Component {
     });
   };
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
+  picPreview = e => {
+    const output = document.getElementById("output");
+    output.src = URL.createObjectURL(e.target.files[0]);
+  };
   handleSubmit = e => {
     e.preventDefault();
     let formData = new FormData(this.form.current);
     axios({
       method: "put",
       url: `${process.env.REACT_APP_API_URL}/user/${this.props.user._id}`,
-      config: { headers: { "Content-Type": "multipart/form-data" } }, //New! This is a different encoding type, because we're uploading files
+      config: { headers: { "Content-Type": "multipart/form-data" } },
       data: formData,
       withCredentials: true
     })
@@ -78,9 +82,10 @@ class Profile extends Component {
             >
               <figure
                 className='image is-128x128'
-                style={{ margin: "auto auto" }}
+                style={{ margin: "auto auto", overflow: "hidden" }}
               >
                 <img
+                  id='output'
                   src={`${process.env.REACT_APP_URL}/images/${this.state.img}`}
                   alt='profile pic'
                 />
@@ -161,6 +166,7 @@ class Profile extends Component {
                 type='file'
                 name='profile-picture'
                 id='profile-picture'
+                onChange={this.picPreview}
               />
               <span className='file-cta'>
                 <span className='file-icon'>
@@ -231,7 +237,8 @@ class Profile extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.foodRequests && requestsOrOffersArray.length > 0 &&
+              {this.state.foodRequests &&
+                requestsOrOffersArray.length > 0 &&
                 requestsOrOffersArray.map((foodRequest, index) => (
                   <tr key={`tr-${index}`}>
                     <td>{foodRequest.groceryItem.name}</td>
