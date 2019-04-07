@@ -5,7 +5,7 @@ import "bulma/css/bulma.css";
 import moment from "moment";
 
 class Profile extends Component {
-  form = React.createRef(); 
+  form = React.createRef();
   state = {
     userType: "",
     ...this.props.user,
