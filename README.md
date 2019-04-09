@@ -9,8 +9,6 @@ When a user has food to offer then the offer can be placed in the app, or the fo
 
 If the user is a foodconsumer then a request can be made for food or the food consumer can respond on foodoffers. If the user responds on a foodoffer, the user can come into contact with the person that offers the food.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Built With MERN stack
 
 The project is built primarily with on the MERN. This repo is used for the client side built with React. It can run locally as the client side with the back-end/server side running seperately. The back-end repo can be found here: [https://github.com/jeltehomminga/final-project-backend](https://github.com/jeltehomminga/final-project-backend)
