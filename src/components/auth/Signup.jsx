@@ -18,15 +18,17 @@ class Signup extends Component {
           username: "",
           password: ""
         });
+        debugger
         this.props.logIn({ loggedIn: true, user: responseData });
         this.props.history.push("/profile");
       })
       .catch(error => {
-
+        debugger
+        const newError = error.response ? error.response.data.message : ""
         this.setState({
           username: "",
           password: "",
-          error: "username taken"
+          error: newError || "invalid credentials"
         });
         console.log(error);
       });
@@ -62,6 +64,7 @@ class Signup extends Component {
             className='input'
             type='password'
             name='password'
+            minLength={8}
             value={this.state.password}
             onChange={this.handleChange}
             placeholder='Password:'

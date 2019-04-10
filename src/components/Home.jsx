@@ -26,7 +26,7 @@ const Home = props => {
           <div className='home-item' style={{width: '100%'}}>
             <h1 className="is-size-1" style={{marginBottom: '20px'}}>Open fridge</h1>
 
-            <Signup />
+            <Signup {...props}/>
           </div>
         )}
       </div>

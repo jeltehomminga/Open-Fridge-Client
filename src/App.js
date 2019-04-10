@@ -60,7 +60,7 @@ class App extends Component {
                   exact
                   path='/'
                   render={props => (
-                    <Home {...props} loggedIn={this.state.loggedIn} />
+                    <Home {...props} loggedIn={this.state.loggedIn} logIn={this.logIn} />
                   )}
                 />
                 <Route
